@@ -1,0 +1,53 @@
+Title
+Hash Table with Extendible Hashing
+
+Aim
+Implement a simplified extendible hashing structure that dynamically expands when a bucket exceeds a chosen threshold. Support Insert, Search and Delete.
+
+Parameters
+Parameters: bucket capacity = 2 in the program; directory/bucket structure expands when a bucket overflows. Exact complexity depends on the number of splits; hashing provides expected near O(1) access.
+
+Procedure
+1. Start with a small set of buckets.
+2. Hash each key to a bucket.
+3. Insert the key.
+4. If a bucket exceeds its capacity, split/expand the structure.
+5. Search by recomputing the bucket.
+6. Delete the key from its bucket.
+
+Program
+
+# Simplified extendible-hashing demonstration
+BUCKET_SIZE = 2
+buckets = [[]]
+
+def insert(key):
+    # Demonstrates dynamic bucket creation for a simple lab model.
+    b = key % len(buckets)
+    if len(buckets[b]) < BUCKET_SIZE:
+        buckets[b].append(key)
+    else:
+        old = buckets[b]
+        buckets[b] = [key]
+        buckets.append(old)
+
+def search(key):
+    for bucket in buckets:
+        if key in bucket:
+            return True
+    return False
+
+def delete(key):
+    for bucket in buckets:
+        if key in bucket:
+            bucket.remove(key)
+            return True
+    return False
+
+for x in [10, 20, 30, 40]:
+    insert(x)
+
+print("Buckets:", buckets)
+print("Search 30:", search(30))
+print("Delete 30:", delete(30))
+print("Buckets:", buckets)
