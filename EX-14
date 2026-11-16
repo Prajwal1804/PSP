@@ -1,0 +1,58 @@
+Title
+Expression Tree from Prefix Expression
+
+Aim
+Construct an expression tree from a prefix expression, traverse it in postorder (non-recursively), and then delete the entire tree.
+
+Parameters
+Input: prefix expression. Output: expression tree and postorder traversal. Tree construction: O(n); postorder traversal: O(n); space: O(n).
+
+Procedure
+1. Read the prefix expression from right to left.
+2. Create a node for every operand.
+3. For an operator, pop two nodes and attach them as children.
+4. Push the new subtree.
+5. The remaining node is the root.
+6. Traverse postorder using a stack.
+7. Delete the tree by clearing references.
+
+Program
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def is_operator(x):
+    return x in "+-*/%^"
+
+def build_tree(prefix):
+    stack = []
+    for token in reversed(prefix.split()):
+        if not is_operator(token):
+            stack.append(Node(token))
+        else:
+            node = Node(token)
+            node.left = stack.pop()
+            node.right = stack.pop()
+            stack.append(node)
+    return stack[-1]
+
+def postorder(root):
+    if not root:
+        return []
+    s1, s2 = [root], []
+    while s1:
+        x = s1.pop()
+        s2.append(x)
+        if x.left:
+            s1.append(x.left)
+        if x.right:
+            s1.append(x.right)
+    return [x.value for x in reversed(s2)]
+
+root = build_tree("+ * A B - C D")
+print("Postorder:", postorder(root))
+root = None
+print("Expression tree deleted.")
