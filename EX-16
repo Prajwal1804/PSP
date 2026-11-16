@@ -1,0 +1,40 @@
+Title
+Binary Tree Representation of a Propositional Formula
+
+Aim
+Read a formula in propositional-calculus style and create its binary tree representation. Determine the time and space complexity of the function.
+
+Parameters
+Input: formula tokens/operators. Output: binary expression tree. For a token-based construction, time is O(n) and space is O(n), where n is the number of tokens.
+
+Procedure
+1. Tokenize the formula.
+2. Identify operands and binary operators.
+3. Build nodes for operands.
+4. Attach left and right subtrees according to the operator structure.
+5. Display the tree using inorder/preorder traversal.
+6. State complexity as O(n) for a linear construction.
+
+Program
+
+class Node:
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+# Example formula: (A AND B) OR C
+root = Node("OR",
+            Node("AND", Node("A"), Node("B")),
+            Node("C"))
+
+def preorder(root):
+    if root:
+        print(root.value, end=" ")
+        preorder(root.left)
+        preorder(root.right)
+
+print("Binary tree preorder:")
+preorder(root)
+print("\nTime complexity: O(n)")
+print("Space complexity: O(n)")
