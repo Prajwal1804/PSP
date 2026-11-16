@@ -1,0 +1,95 @@
+Title
+Student Record Management using Linked List
+
+Aim
+Create a Student Record Management System using a singly linked list. Store Roll No, Name and Marks and perform Add, Delete, Update, Search and Sort operations.
+
+Parameters
+Input: student records. Output: records and search/update/delete/sorted results. Search/delete by value: O(n); insertion at beginning: O(1); sorting in the program below: O(n²). Space: O(n).
+
+Procedure
+1. Define a Node containing RollNo, Name and Marks.
+2. Add nodes to the linked list.
+3. Traverse to search.
+4. Traverse and remove a matching node for deletion.
+5. Update the matching record.
+6. Sort records by marks.
+7. Display records.
+
+Program
+
+class Node:
+    def __init__(self, roll, name, marks):
+        self.roll = roll
+        self.name = name
+        self.marks = marks
+        self.next = None
+
+class StudentList:
+    def __init__(self):
+        self.head = None
+
+    def add(self, roll, name, marks):
+        n = Node(roll, name, marks)
+        n.next = self.head
+        self.head = n
+
+    def display(self):
+        p = self.head
+        while p:
+            print(p.roll, p.name, p.marks)
+            p = p.next
+
+    def search(self, roll):
+        p = self.head
+        while p:
+            if p.roll == roll:
+                return p
+            p = p.next
+        return None
+
+    def delete(self, roll):
+        p, prev = self.head, None
+        while p:
+            if p.roll == roll:
+                if prev:
+                    prev.next = p.next
+                else:
+                    self.head = p.next
+                return True
+            prev, p = p, p.next
+        return False
+
+    def update(self, roll, name, marks):
+        p = self.search(roll)
+        if p:
+            p.name, p.marks = name, marks
+            return True
+        return False
+
+    def sort_by_marks(self):
+        p = self.head
+        while p:
+            q = p.next
+            while q:
+                if p.marks > q.marks:
+                    p.roll, q.roll = q.roll, p.roll
+                    p.name, q.name = q.name, p.name
+                    p.marks, q.marks = q.marks, p.marks
+                q = q.next
+            p = p.next
+
+s = StudentList()
+s.add(1, "Asha", 78)
+s.add(2, "Riya", 92)
+s.add(3, "Neha", 65)
+
+print("Records:")
+s.display()
+
+s.update(1, "Asha", 85)
+s.delete(3)
+s.sort_by_marks()
+
+print("\nAfter update, delete and sort:")
+s.display()
