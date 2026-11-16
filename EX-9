@@ -1,0 +1,57 @@
+Title
+Hash Table with Linear Probing
+
+Aim
+Design a fixed-size hash table using the division method and resolve collisions using linear probing. Support Insert, Search, Delete and Display.
+
+Parameters
+Parameter: fixed table size; hash h(key) = key % size. Average insert/search/delete is O(1), worst case O(n). Space: O(m), where m is table size.
+
+Procedure
+1. Create a fixed-size array.
+2. Calculate the initial hash index.
+3. If occupied, check the next position repeatedly.
+4. Search using the same probing sequence.
+5. Mark deleted entries separately so probing is preserved.
+6. Display the table.
+
+Program
+
+SIZE = 10
+table = [None] * SIZE
+DELETED = "DELETED"
+
+def index(key):
+    return key % SIZE
+
+def insert(key):
+    for i in range(SIZE):
+        pos = (index(key) + i) % SIZE
+        if table[pos] is None or table[pos] == DELETED:
+            table[pos] = key
+            return
+    print("Table is full.")
+
+def search(key):
+    for i in range(SIZE):
+        pos = (index(key) + i) % SIZE
+        if table[pos] is None:
+            return -1
+        if table[pos] == key:
+            return pos
+    return -1
+
+def delete(key):
+    pos = search(key)
+    if pos != -1:
+        table[pos] = DELETED
+        return True
+    return False
+
+insert(12)
+insert(22)
+insert(32)
+print("Table:", table)
+print("Search 22:", search(22))
+delete(22)
+print("After delete:", table)
