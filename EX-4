@@ -1,0 +1,54 @@
+Title
+Undo/Redo System using Stack
+
+Aim
+Implement a real-time undo/redo system for a text editor using stacks. Support Make Change, Undo, Redo and Display Document State.
+
+Parameters
+Input: text changes. Output: current document state. Each push/pop is O(1); total time depends on number of changes. Space: O(n).
+
+Procedure
+1. Maintain a document string.
+2. Store previous states in an undo stack.
+3. Store undone states in a redo stack.
+4. On a new change, push the old state and clear redo.
+5. Undo moves the current state to redo.
+6. Redo moves the state back to undo.
+
+Program
+
+undo_stack = []
+redo_stack = []
+document = ""
+
+while True:
+    print("\n1.Make Change  2.Undo  3.Redo  4.Display  5.Exit")
+    ch = input("Enter choice: ")
+
+    if ch == "1":
+        undo_stack.append(document)
+        document = input("Enter new document text: ")
+        redo_stack.clear()
+
+    elif ch == "2":
+        if undo_stack:
+            redo_stack.append(document)
+            document = undo_stack.pop()
+        else:
+            print("Nothing to undo.")
+
+    elif ch == "3":
+        if redo_stack:
+            undo_stack.append(document)
+            document = redo_stack.pop()
+        else:
+            print("Nothing to redo.")
+
+    elif ch == "4":
+        print("Document:", document)
+
+    elif ch == "5":
+        break
+
+    else:
+        print("Invalid choice.")
