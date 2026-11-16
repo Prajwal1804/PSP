@@ -1,0 +1,56 @@
+Title
+Minimum-Time Pizza Delivery Graph
+
+Aim
+Model delivery locations as a weighted graph where edge weights represent travel time. Find the minimum travel time from one location to another using an appropriate shortest-path algorithm.
+
+Parameters
+Input: weighted graph and source/destination. Output: minimum travel time and path. Dijkstra with a heap: O((V+E) log V) for non-negative weights.
+
+Procedure
+1. Represent locations as graph vertices.
+2. Represent travel times as edge weights.
+3. Select a source and destination.
+4. Apply Dijkstra's algorithm.
+5. Store previous vertices to reconstruct the path.
+6. Display minimum time and route.
+
+Program
+
+import heapq
+
+graph = {
+    "A": [("B", 4), ("C", 2)],
+    "B": [("A", 4), ("C", 1), ("D", 5)],
+    "C": [("A", 2), ("B", 1), ("D", 8)],
+    "D": [("B", 5), ("C", 8)]
+}
+
+def dijkstra(source):
+    dist = {v: float("inf") for v in graph}
+    prev = {v: None for v in graph}
+    dist[source] = 0
+    pq = [(0, source)]
+
+    while pq:
+        d, u = heapq.heappop(pq)
+        if d != dist[u]:
+            continue
+        for v, w in graph[u]:
+            nd = d + w
+            if nd < dist[v]:
+                dist[v] = nd
+                prev[v] = u
+                heapq.heappush(pq, (nd, v))
+    return dist, prev
+
+dist, prev = dijkstra("A")
+target = "D"
+path = []
+while target:
+    path.append(target)
+    target = prev[target]
+path.reverse()
+
+print("Minimum time:", dist["D"])
+print("Path:", path)
