@@ -1,0 +1,65 @@
+Title
+City Population Management using Binary Search Tree
+
+Aim
+Store city names and populations in a Binary Search Tree. Add, delete and update cities, display city names in ascending/descending order, and determine the maximum number of comparisons required for a search.
+
+Parameters
+Input: city name and population. Output: sorted cities, updated/deleted records and comparison count. Average BST operations O(log n); worst case O(n).
+
+Procedure
+1. Use population or city name as the BST key.
+2. Insert city records.
+3. Search for a city and count comparisons.
+4. Update or delete a city.
+5. Inorder gives ascending order; reverse inorder gives descending order.
+6. Report comparisons.
+
+Program
+
+class Node:
+    def __init__(self, city, population):
+        self.city = city
+        self.population = population
+        self.left = None
+        self.right = None
+
+def insert(root, city, population):
+    if root is None:
+        return Node(city, population)
+    if city < root.city:
+        root.left = insert(root.left, city, population)
+    elif city > root.city:
+        root.right = insert(root.right, city, population)
+    else:
+        root.population = population
+    return root
+
+def display(root):
+    if root:
+        display(root.left)
+        print(root.city, root.population)
+        display(root.right)
+
+def search(root, city):
+    comparisons = 0
+    while root:
+        comparisons += 1
+        if city == root.city:
+            return root, comparisons
+        root = root.left if city < root.city else root.right
+    return None, comparisons
+
+root = None
+for city, pop in [
+    ("Pune", 7000000), ("Mumbai", 20000000),
+    ("Nashik", 1800000), ("Nagpur", 2500000)
+]:
+    root = insert(root, city, pop)
+
+print("Cities in ascending order:")
+display(root)
+
+node, comparisons = search(root, "Pune")
+print("Found:", node is not None)
+print("Comparisons:", comparisons)
