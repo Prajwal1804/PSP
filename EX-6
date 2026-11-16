@@ -1,0 +1,45 @@
+Title
+Call Center Queue Simulation
+
+Aim
+Simulate a call center using a queue. Implement addCall(customerID, callTime), answerCall(), viewQueue() and isQueueEmpty().
+
+Parameters
+Input: customer ID and call time. Output: queued calls and answered call. Add/answer/check-empty: O(1); viewing: O(n). Space: O(n).
+
+Procedure
+1. Create a FIFO queue.
+2. Add customer ID and call time at the rear.
+3. Answer and remove the first call.
+4. Display all waiting calls.
+5. Check whether the queue is empty.
+
+Program
+
+from collections import deque
+
+q = deque()
+
+def addCall(customerID, callTime):
+    q.append((customerID, callTime))
+
+def answerCall():
+    if q:
+        print("Answered:", q.popleft())
+    else:
+        print("No calls waiting.")
+
+def viewQueue():
+    print("Waiting calls:", list(q))
+
+def isQueueEmpty():
+    return len(q) == 0
+
+addCall(101, 5)
+addCall(102, 3)
+addCall(103, 7)
+
+viewQueue()
+answerCall()
+print("Queue empty:", isQueueEmpty())
+viewQueue()
