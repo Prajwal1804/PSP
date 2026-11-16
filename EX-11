@@ -1,0 +1,55 @@
+Title
+Graph Traversal using BFS and DFS
+
+Aim
+Represent a city-location graph using an adjacency matrix and adjacency list. Starting from vertex A, perform BFS and DFS traversals.
+
+Parameters
+Input: graph vertices and edges. Output: BFS and DFS order. Adjacency-list BFS/DFS time: O(V+E); space: O(V).
+
+Procedure
+1. Create vertices and connections.
+2. Build an adjacency list and adjacency matrix.
+3. Start traversal from A.
+4. BFS uses a queue.
+5. DFS uses recursion/stack.
+6. Display both traversal sequences.
+
+Program
+
+from collections import deque
+
+graph = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B"],
+    "F": ["C"]
+}
+
+def bfs(start):
+    q = deque([start])
+    visited = {start}
+    order = []
+    while q:
+        u = q.popleft()
+        order.append(u)
+        for v in graph[u]:
+            if v not in visited:
+                visited.add(v)
+                q.append(v)
+    return order
+
+def dfs(u, visited=None, order=None):
+    if visited is None:
+        visited, order = set(), []
+    visited.add(u)
+    order.append(u)
+    for v in graph[u]:
+        if v not in visited:
+            dfs(v, visited, order)
+    return order
+
+print("BFS:", bfs("A"))
+print("DFS:", dfs("A"))
