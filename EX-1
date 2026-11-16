@@ -1,0 +1,39 @@
+Title
+Library Borrowing Record Analysis
+
+
+Aim
+Write a Python program to manage borrowing records of books in a library. Compute the average number of books borrowed, find the highest and lowest borrowing counts, count members with zero borrowing, and display the most frequently occurring borrow count.
+Parameters
+
+Input: list of borrow counts. Output: average, maximum, minimum, zero-count members and mode. Time: O(n) for one-pass statistics; O(n) expected with a frequency dictionary. Space: O(n) in the general case.
+
+Procedure
+1. Read the borrowing counts.
+2. Calculate total and average.
+3. Find maximum and minimum values.
+4. Count values equal to zero.
+5. Use a dictionary to find the most frequent borrow count.
+6. Display all results.
+
+Program
+borrow = list(map(int, input("Enter borrow counts: ").split()))
+
+total = sum(borrow)
+average = total / len(borrow)
+
+highest = max(borrow)
+lowest = min(borrow)
+zero_count = borrow.count(0)
+
+freq = {}
+for x in borrow:
+    freq[x] = freq.get(x, 0) + 1
+
+mode = max(freq, key=freq.get)
+
+print("Average:", average)
+print("Highest borrowing count:", highest)
+print("Lowest borrowing count:", lowest)
+print("Members with zero borrowing:", zero_count)
+print("Most frequent borrow count:", mode)
