@@ -1,0 +1,48 @@
+Title
+Hash Table with Chaining
+
+Aim
+Implement a hash table of size 10 using the division method. Resolve collisions using chaining and support Insert, Search and Delete.
+
+Parameters
+Parameter: table size = 10; hash function h(key) = key % 10. Insert/Search/Delete average time is O(1), worst case O(n). Space: O(n + table size).
+
+Procedure
+1. Create 10 empty buckets.
+2. Compute index = key % 10.
+3. Store colliding keys in the same bucket.
+4. Search the corresponding bucket.
+5. Delete the required key from its bucket.
+
+
+Program
+SIZE = 10
+table = [[] for _ in range(SIZE)]
+
+def hash_function(key):
+    return key % SIZE
+
+def insert(key, value):
+    table[hash_function(key)].append((key, value))
+
+def search(key):
+    for k, v in table[hash_function(key)]:
+        if k == key:
+            return v
+    return None
+
+def delete(key):
+    bucket = table[hash_function(key)]
+    for i, (k, v) in enumerate(bucket):
+        if k == key:
+            bucket.pop(i)
+            return True
+    return False
+
+insert(12, "A")
+insert(22, "B")
+insert(35, "C")
+
+print("Search 22:", search(22))
+print("Delete 22:", delete(22))
+print("Table:", table)
