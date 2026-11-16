@@ -1,0 +1,79 @@
+Title
+Binary Search Tree Operations
+
+Aim
+Implement insertion, deletion, display and search operations on a Binary Search Tree (BST).
+
+Parameters
+Input: integer keys. Output: BST traversals and search/delete results. Average search/insert/delete: O(log n); worst case O(n). Space: O(n).
+
+Procedure
+1. Define a tree node.
+2. Insert keys according to BST rules.
+3. Search by comparing the key with the current node.
+4. Delete leaf/one-child/two-child nodes.
+5. Display using inorder traversal.
+
+Program
+
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+def insert(root, key):
+    if root is None:
+        return Node(key)
+    if key < root.key:
+        root.left = insert(root.left, key)
+    elif key > root.key:
+        root.right = insert(root.right, key)
+    return root
+
+def search(root, key):
+    if root is None or root.key == key:
+        return root
+    if key < root.key:
+        return search(root.left, key)
+    return search(root.right, key)
+
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.key, end=" ")
+        inorder(root.right)
+
+def min_node(root):
+    while root.left:
+        root = root.left
+    return root
+
+def delete(root, key):
+    if root is None:
+        return None
+    if key < root.key:
+        root.left = delete(root.left, key)
+    elif key > root.key:
+        root.right = delete(root.right, key)
+    else:
+        if root.left is None:
+            return root.right
+        if root.right is None:
+            return root.left
+        temp = min_node(root.right)
+        root.key = temp.key
+        root.right = delete(root.right, temp.key)
+    return root
+
+root = None
+for x in [50, 30, 70, 20, 40, 60, 80]:
+    root = insert(root, x)
+
+print("Inorder:")
+inorder(root)
+print("\nSearch 40:", search(root, 40) is not None)
+
+root = delete(root, 30)
+print("After deleting 30:")
+inorder(root)
